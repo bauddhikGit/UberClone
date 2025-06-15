@@ -1,8 +1,8 @@
-# User Registration Endpoint Documentation
+# API Documentation
 
-## Endpoint
+## End_Point: User Registration
 
-**POST** `/user/register`
+### ==> **POST** `/users/register`
 
 ## Description
 
@@ -56,5 +56,65 @@ Registers a new user with the provided details. The endpoint validates the reque
       "errors": [
         // error details array
       ]
+    }
+    ```
+
+## End_Point: User Login
+
+### ==> **POST** `/users/login`
+
+## Description
+
+Logs in an existing user. Validates the email and password, and returns a JSON response with a token and the user object upon successful authentication.
+
+### Request Body
+
+- **email**: Required valid email address.
+- **password**: Required string (at least 6 characters).
+
+#### Example
+
+```json
+{
+  "email": "john.doe@example.com",
+  "password": "securePass123"
+}
+```
+
+### Responses
+
+- **200 OK**
+  - Description: User successfully logged in.
+  - Body:
+    ```json
+    {
+      "token": "jwt_token_here",
+      "user": {
+        "id": "1234567890abcdef",
+        "fullname": {
+          "firstname": "John",
+          "lastname": "Doe"
+        },
+        "email": "john.doe@example.com",
+        "createdAt": "2024-06-10T12:34:56.789Z"
+      }
+    }
+    ```
+- **400 Bad Request**
+  - Description: Validation errors. The response includes details of invalid fields.
+  - Body:
+    ```json
+    {
+      "errors": [
+        // error details array
+      ]
+    }
+    ```
+- **401 Unauthorized**
+  - Description: The email or password is incorrect.
+  - Body:
+    ```json
+    {
+      "message": "Invalid email or password"
     }
     ```
