@@ -118,3 +118,71 @@ Logs in an existing user. Validates the email and password, and returns a JSON r
       "message": "Invalid email or password"
     }
     ```
+
+## End_Point: User Profile
+
+### ==> **GET** `/users/profile`
+
+## Description
+
+Fetches the profile of the currently authenticated user. Requires a valid authentication token.
+
+### Headers
+
+- **Authorization**: Bearer token (JWT).
+
+### Responses
+
+- **200 OK**
+  - Description: Successfully fetched user profile.
+  - Body:
+    ```json
+    {
+      "id": "1234567890abcdef",
+      "fullname": {
+        "firstname": "John",
+        "lastname": "Doe"
+      },
+      "email": "john.doe@example.com",
+      "createdAt": "2024-06-10T12:34:56.789Z"
+    }
+    ```
+- **401 Unauthorized**
+  - Description: Authentication token is missing or invalid.
+  - Body:
+    ```json
+    {
+      "message": "Unauthorized"
+    }
+    ```
+
+## End_Point: User Logout
+
+### ==> **GET** `/users/logout`
+
+## Description
+
+Logs out the currently authenticated user by clearing the authentication token and blacklisting it.
+
+### Headers
+
+- **Authorization**: Bearer token (JWT).
+
+### Responses
+
+- **200 OK**
+  - Description: Successfully logged out.
+  - Body:
+    ```json
+    {
+      "message": "Logged out successfully"
+    }
+    ```
+- **401 Unauthorized**
+  - Description: Authentication token is missing or invalid.
+  - Body:
+    ```json
+    {
+      "message": "Unauthorized"
+    }
+    ```
