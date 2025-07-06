@@ -1,6 +1,6 @@
 # API Documentation
 
-## End_Point: User Registration
+# End_Point: User Registration
 
 ### ==> **POST** `/users/register`
 
@@ -59,7 +59,7 @@ Registers a new user with the provided details. The endpoint validates the reque
     }
     ```
 
-## End_Point: User Login
+# End_Point: User Login
 
 ### ==> **POST** `/users/login`
 
@@ -119,7 +119,7 @@ Logs in an existing user. Validates the email and password, and returns a JSON r
     }
     ```
 
-## End_Point: User Profile
+# End_Point: User Profile
 
 ### ==> **GET** `/users/profile`
 
@@ -156,7 +156,7 @@ Fetches the profile of the currently authenticated user. Requires a valid authen
     }
     ```
 
-## End_Point: User Logout
+# End_Point: User Logout
 
 ### ==> **GET** `/users/logout`
 
@@ -184,5 +184,82 @@ Logs out the currently authenticated user by clearing the authentication token a
     ```json
     {
       "message": "Unauthorized"
+    }
+    ```
+
+# End_Point: Captain Registration
+
+### ==> **POST** `/captains/register`
+
+## Description
+
+Registers a new captain with the provided details, including vehicle information. Validates the request body and returns a JSON response with the captain object on success.
+
+## Request Body
+
+- **fullname**: An object containing:
+  - **firstname**: Required string (at least 3 characters).
+  - **lastname**: Optional string.
+- **email**: Required valid email address.
+- **password**: Required string (at least 6 characters).
+- **vehicle**: An object containing:
+  - **color**: Required string (at least 3 characters).
+  - **plate**: Required string (at least 3 characters).
+  - **capacity**: Required integer (minimum 1).
+  - **vehicleType**: Required string, one of: `"car"`, `"motorcycle"`, `"auto"`.
+
+### Example
+
+```json
+{
+  "fullname": {
+    "firstname": "Alice",
+    "lastname": "Smith"
+  },
+  "email": "alice.smith@example.com",
+  "password": "captainPass123",
+  "vehicle": {
+    "color": "Red",
+    "plate": "XYZ1234",
+    "capacity": 4,
+    "vehicleType": "car"
+  }
+}
+```
+
+## Responses
+
+- **201 Created**
+  - Description: Captain successfully registered.
+  - Body:
+    ```json
+    {
+      "captain": {
+        "id": "abcdef1234567890",
+        "fullname": {
+          "firstname": "Alice",
+          "lastname": "Smith"
+        },
+        "email": "alice.smith@example.com",
+        "password": "$2b$10$UZ/pWTj0cf5P804uJiKbbXuMycnW5FPW5NiMfYsqofPTmhKkyH5WaW",
+        "status": "inactive",
+        "vehicle": {
+          "color": "Red",
+          "plate": "XYZ1234",
+          "capacity": 4,
+          "vehicleType": "car"
+        },
+        "createdAt": "2024-06-10T12:34:56.789Z"
+      }
+    }
+    ```
+- **400 Bad Request**
+  - Description: Validation errors. The response will include details of the invalid fields.
+  - Body:
+    ```json
+    {
+      "errors": [
+        // error details array
+      ]
     }
     ```
