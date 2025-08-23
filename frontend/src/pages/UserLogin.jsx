@@ -1,17 +1,31 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { UserDataContext } from "../context/UserContext";
 
 const UserLogin = () => {
+  const navigate = useNavigate();
+  const { user, setUser } = React.useContext(UserDataContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userData, setUserData] = useState({});
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
-    setUserData({
+    const userData = {
       email: email,
       password: password,
-    });
+    };
+    const response = await axios.post(
+      `${import.meta.env.VITE_BASE_URL}/users/login`,
+      userData
+    );
+    if (response.status === 200) {
+      const data = response.data;
+      setUser(data.user);
+      localStorage.setItem("token", data.token);
+      navigate("/home");
+    }
   };
 
   return (
@@ -36,6 +50,7 @@ const UserLogin = () => {
         text-lg placeholder:text-base"
             type="email"
             placeholder="email@example.com"
+            autoComplete="email"
           />
           <h3 className="text-lg font-medium mb-2">Enter Password</h3>
           <input
@@ -45,7 +60,8 @@ const UserLogin = () => {
         text-lg placeholder:text-base"
             required
             type="password"
-            placeholder="password "
+            placeholder="password"
+            autoComplete="current-password"
           />
           <button
             className="bg-[#111] text-white font-semibold mb-3 rounded px-4 py-2 border w-full
