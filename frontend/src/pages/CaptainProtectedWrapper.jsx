@@ -13,27 +13,26 @@ const CaptainProtectedWrapper = ({ children }) => {
     if (!token) {
       navigate("/captain-login");
     }
-  }, [token]);
-
-  axios
-    .get(`${import.meta.env.VITE_BASE_URL}/captains/profile`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    .then((response) => {
-      if (response.status === 200) {
-        const captainData = response.data.captain;
-        setCaptain(captainData);
+    axios
+      .get(`${import.meta.env.VITE_BASE_URL}/captains/profile`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          const captainData = response.data.captain;
+          setCaptain(captainData);
+          setIsLoading(false);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching captain profile:", error);
+        localStorage.removeItem("token");
         setIsLoading(false);
-      }
-    })
-    .catch((error) => {
-      console.error("Error fetching captain profile:", error);
-      localStorage.removeItem("token");
-      setIsLoading(false);
-      navigate("/captain-login");
-    });
+        navigate("/captain-login");
+      });
+  }, [token]);
 
   if (isLoading) {
     return <div>Loading...</div>;

@@ -163,7 +163,7 @@ const CaptainSignup = () => {
         </p>
       </div>
       <div>
-        <p className="text-[12px] text-center leading-tight mb-3">
+        <p className="text-[12px] text-center leading-tight mb-3 mt-6">
           By proceeding, you consent to get calls, whatsApp or SMS messages,
           including by automated means, from Uber and its affiliates to the
           number provided.{" "}
